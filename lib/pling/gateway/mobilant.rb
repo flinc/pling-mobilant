@@ -10,41 +10,41 @@ module Pling
 
       handles :sms, :mobilant
 
-      def _deliver(message, device)
-        message.extend(::Pling::Mobilant::MessageHelper)
-        device.extend(::Pling::Mobilant::DeviceHelper)
-
-        params = {}
-
-        # require url parameter
-        params[:message] = message.url_encoded
-        params[:to]      = device.canonized_identifier
-        params[:route]   = route
-        params[:key]     = configuration[:key]
-        
-        # optional url parameter
-        params[:from]    = source if source
-        params[:debug]   = debug  if debug
-
-        connection.get do |request|
-          request.url(configuration[:delivery_url], params)
-        end
-      end
-
       def initialize(configuration)
         setup_configuration(configuration, :require => [:key])
       end
+
+      protected
+
+        def _deliver(message, device)
+          message.extend(::Pling::Mobilant::MessageHelper)
+          device.extend(::Pling::Mobilant::DeviceHelper)
+
+          params = {}
+
+          # require url parameter
+          params[:message] = message
+          params[:to]      = device.canonized_identifier
+          params[:route]   = route
+          params[:key]     = configuration[:key]
+        
+          # optional url parameter
+          params[:from]    = source if source
+          params[:debug]   = debug  if debug
+
+          connection.get do |request|
+            request.url(configuration[:delivery_url], params)
+          end
+        end
 
       private
 
         def default_configuration
           super.merge({
-                        :delivery_url => 'https://gw.mobilant.net/',
-                        :adapter => :net_http,
-                        :connection => {},
-                        :route => :lowcost,
-                        :source => nil,
-                        :debug => nil
+            :delivery_url => 'https://gw.mobilant.net/',
+            :adapter => :net_http,
+            :connection => {},
+            :route => :lowcost
           })
         end
 
