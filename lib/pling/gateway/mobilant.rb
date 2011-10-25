@@ -8,7 +8,7 @@ module Pling
   module Gateway
     class Mobilant < Base
 
-      handles :sms, :mobilant
+      handles :sms, :mobilant, :mobile
 
       def initialize(configuration)
         setup_configuration(configuration, :require => [:key])
