@@ -1,7 +1,10 @@
 require 'spec_helper'
+require 'pling/gateway/mobilant'
 
 module Pling
-  describe Mobilant do
+  module Gateway
+    describe Mobilant do
     
+    end
   end
 end
