@@ -16,10 +16,6 @@ module Pling
         length > 160
       end
       
-      def url_encoded
-        URI.encode(body)
-      end
-      
     end
   end
 end
