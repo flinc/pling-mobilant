@@ -23,7 +23,7 @@ module Pling
           params = {}
 
           # require url parameter
-          params[:message] = message
+          params[:message] = message.body
           params[:to]      = device.canonized_identifier
           params[:route]   = route
           params[:key]     = configuration[:key]
