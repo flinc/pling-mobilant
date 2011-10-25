@@ -4,3 +4,4 @@ source "http://rubygems.org"
 gemspec
 
 gem "pling", :git => "git://github.com/flinc/pling.git"
+gem "growl_notify" if RUBY_PLATFORM =~ /darwin/
