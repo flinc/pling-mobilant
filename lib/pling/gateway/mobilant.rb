@@ -32,8 +32,16 @@ module Pling
           params[:from]    = source if source
           params[:debug]   = debug  if debug
 
-          connection.get do |request|
+          response = connection.get do |request|
             request.url(configuration[:delivery_url], params)
+          end
+          
+          response_code = response.body.lines.first
+          
+          if error = ::Pling::Mobilant.error_by_response_code(response_code)
+            raise error
+          else
+            nil
           end
         end
 

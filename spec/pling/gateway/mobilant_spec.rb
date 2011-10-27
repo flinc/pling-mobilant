@@ -23,14 +23,14 @@ module Pling
 
         let(:request) do
           mock('Faraday request').tap do |mock|
-            mock.stub(:url).with(any_args)
+            mock.stub(:url).with(an_instance_of(String), an_instance_of(Hash))
           end
         end
 
         let(:response) do
           mock('Faraday response').tap do |mock|
             mock.stub(:status).and_return(200)
-            mock.stub(:body).and_return('')
+            mock.stub(:body).and_return('100')
           end
         end
 
@@ -44,9 +44,11 @@ module Pling
           Faraday.stub(:new).and_return(connection)
         end
 
-        it "should deliver the message if both, message and device, are valid and the gateway is configured properly" do
-          subject = Pling::Gateway::Mobilant.new(:key => key)
+        subject do
+          Pling::Gateway::Mobilant.new(:key => key)
+        end
 
+        it "should deliver the message if both, message and device, are valid and the gateway is configured properly" do
           request.should_receive(:url).with("https://gw.mobilant.net/", {
                                               :message => 'Hello World',
                                               :to => "00491701234567",
@@ -55,6 +57,56 @@ module Pling
           })
 
           subject.deliver(message, device)
+        end
+
+        it "should raise an exception when the provider reports an invalid recipient" do
+          response.should_receive(:body).and_return("10")
+          expect { subject.deliver(message, device) }.to raise_error(InvalidRecipient)
+        end
+
+        it "should raise an exception when the provider reports an invalid sender" do
+          response.should_receive(:body).and_return("20")
+          expect { subject.deliver(message, device) }.to raise_error(InvalidSender)
+        end
+
+        it "should raise an exception when the provider reports an message text" do
+          response.should_receive(:body).and_return("30")
+          expect { subject.deliver(message, device) }.to raise_error(InvalidMessageText)
+        end
+
+        it "should raise an exception when the provider reports an message type" do
+          response.should_receive(:body).and_return("31")
+          expect { subject.deliver(message, device) }.to raise_error(InvalidMessageType)
+        end
+
+        it "should raise an exception when the provider reports an invalid route" do
+          response.should_receive(:body).and_return("40")
+          expect { subject.deliver(message, device) }.to raise_error(InvalidRoute)
+        end
+
+        it "should raise an exception when the provider reports that the authentication failed" do
+          response.should_receive(:body).and_return("50")
+          expect { subject.deliver(message, device) }.to raise_error(AuthenticationFailed)
+        end
+
+        it "should raise an exception when the provider reports insufficient credits" do
+          response.should_receive(:body).and_return("60")
+          expect { subject.deliver(message, device) }.to raise_error(InsufficientCredits)
+        end
+
+        it "should raise an exception when the provider reports an invalid recipient" do
+          response.should_receive(:body).and_return("70")
+          expect { subject.deliver(message, device) }.to raise_error(NetworkNotSupportedByRoute)
+        end
+
+        it "should raise an exception when the provider reports an invalid recipient" do
+          response.should_receive(:body).and_return("71")
+          expect { subject.deliver(message, device) }.to raise_error(FeatureNotSupportedByRoute)
+        end
+
+        it "should raise an exception when the provider reports an invalid recipient" do
+          response.should_receive(:body).and_return("80")
+          expect { subject.deliver(message, device) }.to raise_error(DeliveryFailed)
         end
 
       end

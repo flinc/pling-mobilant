@@ -23,7 +23,7 @@ module Pling
   module Mobilant
 
     def self.error_by_response_code(code)
-      case code
+      case code.to_s.to_i
       when 10 then InvalidRecipient
       when 20 then InvalidSender
       when 30 then InvalidMessageText
