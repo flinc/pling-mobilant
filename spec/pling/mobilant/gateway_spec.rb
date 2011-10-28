@@ -1,14 +1,14 @@
 require 'spec_helper'
-require 'pling/gateway/mobilant'
+require 'pling/mobilant'
 
 module Pling
-  module Gateway
-    describe Mobilant do
+  module Mobilant
+    describe Gateway do
 
       context 'when created with no key' do
 
         it "should raise an error" do
-          expect { Pling::Gateway::Mobilant.new({}) }.to raise_error(ArgumentError, /key is missing/)
+          expect { Pling::Mobilant::Gateway.new({}) }.to raise_error(ArgumentError, /key is missing/)
         end
 
       end
@@ -45,7 +45,7 @@ module Pling
         end
 
         subject do
-          Pling::Gateway::Mobilant.new(:key => key)
+          Pling::Mobilant::Gateway.new(:key => key)
         end
 
         it "should deliver the message if both, message and device, are valid and the gateway is configured properly" do

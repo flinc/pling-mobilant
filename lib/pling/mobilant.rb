@@ -1,7 +1,7 @@
 require 'pling'
+require 'pling/mobilant/gateway'
 
 module Pling
-
   module Mobilant
     
     class InvalidRecipient           < Error; end
@@ -40,5 +40,8 @@ module Pling
     end
 
   end
-
+  
+  module Gateway
+    Mobilant = ::Pling::Mobilant::Gateway
+  end
 end

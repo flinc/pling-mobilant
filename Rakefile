@@ -11,5 +11,5 @@ task :default => :spec
 
 desc "Open an irb session"
 task :console do
-  sh "bundle exec irb -rubygems -I lib -r pling/gateway/mobilant.rb"
+  sh "bundle exec irb -rubygems -I lib -r pling/mobilant"
 end
