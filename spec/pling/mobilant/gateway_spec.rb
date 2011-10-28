@@ -42,7 +42,7 @@ module Pling
 
         before do
           Faraday.stub(:new).and_return(connection)
-        end
+        end 
 
         subject do
           Pling::Mobilant::Gateway.new(:key => key)

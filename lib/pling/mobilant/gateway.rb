@@ -14,7 +14,7 @@ module Pling
 
       protected
 
-        def _deliver(message, device)
+        def deliver!(message, device)
           params = {}
 
           # require url parameter
