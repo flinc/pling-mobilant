@@ -17,14 +17,11 @@ module Pling
       protected
 
         def _deliver(message, device)
-          message.extend(::Pling::Mobilant::MessageHelper)
-          device.extend(::Pling::Mobilant::DeviceHelper)
-
           params = {}
 
           # require url parameter
           params[:message] = message.body
-          params[:to]      = device.canonized_identifier
+          params[:to]      = sanitize_identifier(device.identifier)
           params[:route]   = route
           params[:key]     = configuration[:key]
         
@@ -76,6 +73,10 @@ module Pling
         def source
           return nil unless configuration[:source]
           configuration[:source].to_s.strip
+        end
+        
+        def sanitize_identifier(identifier)
+          identifier.gsub(/^\+/, "00").gsub(/\D/, '')
         end
 
     end

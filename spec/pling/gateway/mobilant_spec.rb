@@ -17,7 +17,7 @@ module Pling
 
         let(:message) { Message.new(:body => "Hello World") }
 
-        let(:device) { Device.new(:identifier => "00491701234567")  }
+        let(:device) { Device.new(:identifier => "+49 170 1234567")  }
 
         let(:key) { 'X' * 23 }
 
