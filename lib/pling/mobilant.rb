@@ -2,26 +2,26 @@ require 'pling'
 
 module Pling
 
-  class InvalidRecipient           < Error; end
-
-  class InvalidSender              < Error; end
-
-  class InvalidRoute               < Error; end
-
-  class InvalidMessageText         < Error; end
-
-  class InvalidMessageType         < Error; end
-
-  class InvalidRoute               < Error; end
-
-  class InsufficientCredits        < Error; end
-
-  class NetworkNotSupportedByRoute < Error; end
-
-  class FeatureNotSupportedByRoute < Error; end
-
   module Mobilant
+    
+    class InvalidRecipient           < Error; end
 
+    class InvalidSender              < Error; end
+
+    class InvalidRoute               < Error; end
+
+    class InvalidMessageText         < Error; end
+
+    class InvalidMessageType         < Error; end
+
+    class InvalidRoute               < Error; end
+
+    class InsufficientCredits        < Error; end
+
+    class NetworkNotSupportedByRoute < Error; end
+
+    class FeatureNotSupportedByRoute < Error; end
+    
     def self.error_by_response_code(code)
       case code.to_s.to_i
       when 10 then InvalidRecipient

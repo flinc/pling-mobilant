@@ -61,52 +61,62 @@ module Pling
 
         it "should raise an exception when the provider reports an invalid recipient" do
           response.should_receive(:body).and_return("10")
-          expect { subject.deliver(message, device) }.to raise_error(InvalidRecipient)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::Mobilant::InvalidRecipient)
         end
 
         it "should raise an exception when the provider reports an invalid sender" do
           response.should_receive(:body).and_return("20")
-          expect { subject.deliver(message, device) }.to raise_error(InvalidSender)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::Mobilant::InvalidSender)
         end
 
         it "should raise an exception when the provider reports an message text" do
           response.should_receive(:body).and_return("30")
-          expect { subject.deliver(message, device) }.to raise_error(InvalidMessageText)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::Mobilant::InvalidMessageText)
         end
 
         it "should raise an exception when the provider reports an message type" do
           response.should_receive(:body).and_return("31")
-          expect { subject.deliver(message, device) }.to raise_error(InvalidMessageType)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::Mobilant::InvalidMessageType)
         end
 
         it "should raise an exception when the provider reports an invalid route" do
           response.should_receive(:body).and_return("40")
-          expect { subject.deliver(message, device) }.to raise_error(InvalidRoute)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::Mobilant::InvalidRoute)
         end
 
         it "should raise an exception when the provider reports that the authentication failed" do
           response.should_receive(:body).and_return("50")
-          expect { subject.deliver(message, device) }.to raise_error(AuthenticationFailed)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::AuthenticationFailed)
         end
 
         it "should raise an exception when the provider reports insufficient credits" do
           response.should_receive(:body).and_return("60")
-          expect { subject.deliver(message, device) }.to raise_error(InsufficientCredits)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::Mobilant::InsufficientCredits)
         end
 
         it "should raise an exception when the provider reports an invalid recipient" do
           response.should_receive(:body).and_return("70")
-          expect { subject.deliver(message, device) }.to raise_error(NetworkNotSupportedByRoute)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::Mobilant::NetworkNotSupportedByRoute)
         end
 
         it "should raise an exception when the provider reports an invalid recipient" do
           response.should_receive(:body).and_return("71")
-          expect { subject.deliver(message, device) }.to raise_error(FeatureNotSupportedByRoute)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::Mobilant::FeatureNotSupportedByRoute)
         end
 
         it "should raise an exception when the provider reports an invalid recipient" do
           response.should_receive(:body).and_return("80")
-          expect { subject.deliver(message, device) }.to raise_error(DeliveryFailed)
+          expect { subject.deliver(message, device) }.
+            to raise_error(::Pling::DeliveryFailed)
         end
 
       end
