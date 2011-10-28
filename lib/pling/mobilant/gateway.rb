@@ -12,33 +12,31 @@ module Pling
         setup_configuration(configuration, :require => [:key])
       end
 
-      protected
+      def deliver!(message, device)
+        params = {}
 
-        def deliver!(message, device)
-          params = {}
+        # require url parameter
+        params[:message] = message.body
+        params[:to]      = sanitize_identifier(device.identifier)
+        params[:route]   = route
+        params[:key]     = configuration[:key]
 
-          # require url parameter
-          params[:message] = message.body
-          params[:to]      = sanitize_identifier(device.identifier)
-          params[:route]   = route
-          params[:key]     = configuration[:key]
-        
-          # optional url parameter
-          params[:from]    = source if source
-          params[:debug]   = debug  if debug
+        # optional url parameter
+        params[:from]    = source if source
+        params[:debug]   = debug  if debug
 
-          response = connection.get do |request|
-            request.url(configuration[:delivery_url], params)
-          end
-          
-          response_code = response.body.lines.first
-          
-          if error = ::Pling::Mobilant.error_by_response_code(response_code)
-            raise error
-          else
-            nil
-          end
+        response = connection.get do |request|
+          request.url(configuration[:delivery_url], params)
         end
+
+        response_code = response.body.lines.first
+
+        if error = ::Pling::Mobilant.error_by_response_code(response_code)
+          raise error
+        else
+          nil
+        end
+      end
 
       private
 
@@ -72,7 +70,7 @@ module Pling
           return nil unless configuration[:source]
           configuration[:source].to_s.strip
         end
-        
+
         def sanitize_identifier(identifier)
           identifier.gsub(/^\+/, "00").gsub(/\D/, '')
         end
