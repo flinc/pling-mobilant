@@ -1,9 +1,10 @@
 require 'pling'
-require 'pling/mobilant/gateway'
 
 module Pling
   module Mobilant
-    
+
+    autoload :Gateway, 'pling/mobilant/gateway'
+
     class InvalidRecipient           < Error; end
 
     class InvalidSender              < Error; end
@@ -39,9 +40,5 @@ module Pling
       end
     end
 
-  end
-  
-  module Gateway
-    Mobilant = ::Pling::Mobilant::Gateway
   end
 end

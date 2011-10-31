@@ -1,10 +1,8 @@
 require 'faraday'
 
-require 'pling/mobilant'
-
 module Pling
   module Mobilant
-    class Gateway < ::Pling::Gateway::Base
+    class Gateway < ::Pling::Gateway
 
       handles :sms, :mobilant, :mobile
 
