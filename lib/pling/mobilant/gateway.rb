@@ -7,7 +7,8 @@ module Pling
       handles :sms, :mobilant, :mobile
 
       def initialize(configuration)
-        setup_configuration(configuration, :require => [:key])
+        super
+        require_configuration([:key])
       end
 
       def deliver!(message, device)
