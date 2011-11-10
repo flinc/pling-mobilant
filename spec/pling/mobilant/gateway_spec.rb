@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'spec_helper'
 require 'pling/mobilant'
 
@@ -57,6 +59,18 @@ module Pling
           })
 
           subject.deliver(message, device)
+        end
+
+        it 'should allow configuration of the charset parameter' do
+          request.should_receive(:url).with("https://gw.mobilant.net/", {
+                                              :message => 'Hello World',
+                                              :to => "00491701234567",
+                                              :route => :lowcost,
+                                              :key => key,
+                                              :charset => 'UTF-8'
+          })
+
+          Pling::Mobilant::Gateway.new(:key => key, :charset => 'UTF-8').deliver(message, device)
         end
 
         it "should raise an exception when the provider reports an invalid recipient" do

@@ -19,6 +19,7 @@ module Pling
         params[:to]      = sanitize_identifier(device.identifier)
         params[:route]   = route
         params[:key]     = configuration[:key]
+        params[:charset] = configuration[:charset] if configuration[:charset]
 
         # optional url parameter
         params[:from]    = source if source
