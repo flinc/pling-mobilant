@@ -15,11 +15,12 @@ module Pling
         params = {}
 
         # require url parameter
-        params[:message] = message.body
-        params[:to]      = sanitize_identifier(device.identifier)
-        params[:route]   = route
-        params[:key]     = configuration[:key]
-        params[:charset] = configuration[:charset] if configuration[:charset]
+        params[:message]     = message.body
+        params[:to]          = sanitize_identifier(device.identifier)
+        params[:route]       = route
+        params[:key]         = configuration[:key]
+        params[:charset]     = configuration[:charset] if configuration[:charset]
+        params[:messagetype] = configuration[:messagetype] if configuration[:messagetype]
 
         # optional url parameter
         params[:from]    = source if source
